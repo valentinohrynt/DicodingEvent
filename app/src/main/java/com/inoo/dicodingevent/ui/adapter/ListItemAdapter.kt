@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.data.response.ListEventsItem
+import com.inoo.dicodingevent.util.simpleDateUtil.formatDateTime
 
 class ListItemAdapter(
     private val onClickedItem: (Int?) -> Unit,
@@ -63,7 +64,7 @@ class ListItemAdapter(
         fun bind(event: ListEventsItem) {
             eventName.text = event.name
             eventOwner.text = event.ownerName
-            eventBeginTime.text = event.beginTime
+            eventBeginTime.text = event.beginTime?.let { formatDateTime(it) }
             eventQuota.text = "${event.registrants}/${event.quota}"
 
             Glide.with(view.context)

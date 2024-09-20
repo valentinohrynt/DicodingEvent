@@ -1,4 +1,4 @@
-package com.inoo.dicodingevent
+package com.inoo.dicodingevent.util
 
 import android.content.Context
 import android.net.ConnectivityManager

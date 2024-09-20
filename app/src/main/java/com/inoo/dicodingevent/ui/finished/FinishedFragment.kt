@@ -15,7 +15,7 @@ import com.inoo.dicodingevent.databinding.FragmentFinishedBinding
 import com.inoo.dicodingevent.ui.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
 import androidx.appcompat.widget.SearchView
-import com.inoo.dicodingevent.networkUtil
+import com.inoo.dicodingevent.util.networkUtil
 
 
 class FinishedFragment : Fragment() {

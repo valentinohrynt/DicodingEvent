@@ -24,32 +24,43 @@
         <ImageView
             android:id="@+id/iv_detail_event_image_logo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:id="@+id/tv_detail_event_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:id="@+id/tv_detail_event_owner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            android:textSize="14sp"
+            app:drawableStartCompat="@drawable/ic_apartment"
+            android:drawablePadding="8dp"
+            android:layout_marginBottom="8dp"/>
 
         <TextView
             android:id="@+id/tv_detail_event_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            android:textSize="14sp"
+            app:drawableStartCompat="@drawable/ic_calendar"
+            android:drawablePadding="8dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:id="@+id/tv_detail_event_quota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            android:textSize="14sp"
+            app:drawableStartCompat="@drawable/ic_group"
+            android:drawablePadding="8dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:id="@+id/tv_detail_event_description"
@@ -57,14 +68,15 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:paddingTop="8dp"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="14dp" />
 
         <Button
             android:id="@+id/btn_detail_event_open_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/open_event_link"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 

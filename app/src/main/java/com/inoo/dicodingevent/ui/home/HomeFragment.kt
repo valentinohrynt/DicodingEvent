@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentHomeBinding
-import com.inoo.dicodingevent.networkUtil
+import com.inoo.dicodingevent.util.networkUtil
 import com.inoo.dicodingevent.ui.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.GridItemAdapter
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter

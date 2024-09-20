@@ -2,13 +2,14 @@ package com.inoo.dicodingevent.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.databinding.ActivityMainBinding
-import com.inoo.dicodingevent.networkUtil
+import com.inoo.dicodingevent.util.networkUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.sleep(3000)
+        installSplashScreen()
         networkUtil.checkInternet(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)

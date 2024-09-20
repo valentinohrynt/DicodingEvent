@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.data.response.ListEventsItem
 import com.inoo.dicodingevent.databinding.FragmentDetailBinding
+import com.inoo.dicodingevent.util.simpleDateUtil.formatDateTime
 
 class DetailFragment : Fragment() {
 
@@ -51,7 +52,6 @@ class DetailFragment : Fragment() {
     }
 
     private fun updateUI(eventDetail: ListEventsItem?) {
-        Log.d("DetailFragment", "Updating UI with event detail: $eventDetail")
 
         binding.apply {
             Glide.with(this@DetailFragment)
@@ -62,7 +62,7 @@ class DetailFragment : Fragment() {
 
             tvDetailEventName.text = eventDetail?.name
             tvDetailEventOwner.text = eventDetail?.ownerName
-            tvDetailEventTime.text = "${eventDetail?.beginTime} - ${eventDetail?.endTime}"
+            tvDetailEventTime.text = "${formatDateTime(eventDetail?.beginTime ?: "")} - ${formatDateTime(eventDetail?.endTime ?: "")}"
             tvDetailEventQuota.text = "Quota: ${eventDetail?.quota?.minus(eventDetail?.registrants!!)}"
             tvDetailEventDescription.text = HtmlCompat.fromHtml(eventDetail?.description.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
 
