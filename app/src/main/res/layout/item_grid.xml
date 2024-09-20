@@ -22,7 +22,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/title"/>
 
         <!-- Title below the image -->
         <TextView
@@ -73,12 +74,12 @@
             android:layout_width="0dp"
             android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_group"
             android:drawablePadding="4dp"
             android:textSize="12sp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAlignment="textEnd"
+            app:drawableEndCompat="@drawable/ic_group"
             app:layout_constraintTop_toBottomOf="@+id/tv_item_beginTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

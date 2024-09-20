@@ -130,9 +130,4 @@ class MainViewModel : ViewModel() {
             })
         }
     }
-
-    fun clearSearchResults() {
-        isSearching = false
-        _searchResults.value = emptyList()
-    }
 }

@@ -9,7 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.databinding.ActivityMainBinding
-import com.inoo.dicodingevent.util.networkUtil
+import com.inoo.dicodingevent.util.NetworkUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Thread.sleep(3000)
         installSplashScreen()
-        networkUtil.checkInternet(this)
+        NetworkUtil.checkInternet(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

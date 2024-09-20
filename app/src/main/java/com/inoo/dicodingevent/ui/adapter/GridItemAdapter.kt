@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.data.response.ListEventsItem
-import com.inoo.dicodingevent.util.simpleDateUtil.formatDateTime
+import com.inoo.dicodingevent.util.SimpleDateUtil.formatDateTime
 
 class GridItemAdapter(private val onClickedItem: (Int?) -> Unit) : RecyclerView.Adapter<GridItemAdapter.GridEventViewHolder>() {
 
@@ -44,7 +44,7 @@ class GridItemAdapter(private val onClickedItem: (Int?) -> Unit) : RecyclerView.
             eventName.text = event.name
             eventOwner.text = event.ownerName
             eventBeginTime.text = event.beginTime?.let { formatDateTime(it) }
-            eventQuota.text = "${event.registrants}/${event.quota}"
+            "${event.registrants}/${event.quota}".also { eventQuota.text = it }
 
             Glide.with(view.context)
                 .load(event.imageLogo)

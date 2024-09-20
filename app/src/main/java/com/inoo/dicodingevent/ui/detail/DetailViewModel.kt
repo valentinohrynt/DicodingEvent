@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.inoo.dicodingevent.data.response.ListEventsItem
 import com.inoo.dicodingevent.data.response.SpecificEventResponse
 import com.inoo.dicodingevent.data.retrofit.ApiConfig
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,7 +33,6 @@ class DetailViewModel : ViewModel() {
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     val body = response.body()
-                    Log.d("DetailViewModel", "Response Body: $body")
                     _eventDetail.value = body?.event
                 } else {
                     _error.value = "Error: ${response.message()}"

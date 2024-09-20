@@ -15,7 +15,7 @@ import com.inoo.dicodingevent.databinding.FragmentFinishedBinding
 import com.inoo.dicodingevent.ui.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
 import androidx.appcompat.widget.SearchView
-import com.inoo.dicodingevent.util.networkUtil
+import com.inoo.dicodingevent.util.NetworkUtil
 
 
 class FinishedFragment : Fragment() {
@@ -31,7 +31,7 @@ class FinishedFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFinishedBinding.inflate(inflater, container, false)
         return binding!!.root
     }
@@ -91,13 +91,19 @@ class FinishedFragment : Fragment() {
                 listrecyclerView.visibility = View.VISIBLE
             }
         }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }
+        }
         viewModel.fetchInactiveEvents()
 
     }
 
     override fun onResume() {
         super.onResume()
-        networkUtil.checkInternet(requireContext())
+        NetworkUtil.checkInternet(requireContext())
         searchViewFinished.setQuery("", false)
         searchViewFinished.clearFocus()
         searchViewFinished.isIconified = true

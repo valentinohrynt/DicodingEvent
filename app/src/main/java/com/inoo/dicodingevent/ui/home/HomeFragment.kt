@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentHomeBinding
-import com.inoo.dicodingevent.util.networkUtil
+import com.inoo.dicodingevent.util.NetworkUtil
 import com.inoo.dicodingevent.ui.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.GridItemAdapter
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding!!.root
     }
@@ -79,6 +80,14 @@ class HomeFragment : Fragment() {
                 listRecyclerView.visibility = View.VISIBLE
             }
         }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
         viewModel.fetchActiveEvents()
         viewModel.fetchInactiveEvents()
     }
@@ -90,7 +99,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        networkUtil.checkInternet(requireContext())
+        NetworkUtil.checkInternet(requireContext())
     }
     private fun navigateToDetail(eventId: Int?) {
         eventId?.let {

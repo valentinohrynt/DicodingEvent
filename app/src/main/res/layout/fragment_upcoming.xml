@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragment_upcoming"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -19,7 +18,6 @@
             android:id="@+id/searchViewUpcoming"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="Search Events"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -39,11 +37,11 @@
             android:id="@+id/upcomingListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/searchViewUpcoming"
+            android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.031"
-            tools:layout_editor_absoluteX="16dp"
-            android:layout_marginBottom="12dp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/searchViewUpcoming"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

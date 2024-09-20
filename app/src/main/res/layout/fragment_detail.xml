@@ -22,13 +22,14 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/iv_detail_event_image_logo"
+            android:id="@+id/ivDetailEventImageLogo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/title"/>
 
         <TextView
-            android:id="@+id/tv_detail_event_name"
+            android:id="@+id/tvDetailEventName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -36,7 +37,7 @@
             android:layout_marginBottom="16dp"/>
 
         <TextView
-            android:id="@+id/tv_detail_event_owner"
+            android:id="@+id/tvDetailEventOwner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -45,7 +46,7 @@
             android:layout_marginBottom="8dp"/>
 
         <TextView
-            android:id="@+id/tv_detail_event_time"
+            android:id="@+id/tvDetailEventTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -54,7 +55,7 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/tv_detail_event_quota"
+            android:id="@+id/tvDetailEventQuota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -63,7 +64,7 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/tv_detail_event_description"
+            android:id="@+id/tvDetailEventDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -71,7 +72,7 @@
             android:paddingBottom="14dp" />
 
         <Button
-            android:id="@+id/btn_detail_event_open_link"
+            android:id="@+id/btnDetailEventOpenLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/open_event_link"

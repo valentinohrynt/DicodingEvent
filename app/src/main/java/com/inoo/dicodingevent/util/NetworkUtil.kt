@@ -7,9 +7,9 @@ import android.os.Build
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
-object networkUtil {
+object NetworkUtil {
 
-    fun isConnected(context: Context): Boolean {
+    private fun isConnected(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false
