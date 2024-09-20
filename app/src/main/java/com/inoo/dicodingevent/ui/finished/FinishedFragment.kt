@@ -51,10 +51,9 @@ class FinishedFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (!newText.isNullOrEmpty()) {
-                    viewModel.searchInactiveEvents(newText)
-                } else {
+                if (newText.isNullOrEmpty()) {
                     viewModel.fetchInactiveEvents()
+                    viewModel.clearError()
                 }
                 return true
             }
@@ -75,9 +74,6 @@ class FinishedFragment : Fragment() {
         }
 
         viewModel.searchResults.observe(viewLifecycleOwner) { events ->
-            if (events.isEmpty() && viewModel.isSearching) {
-                Toast.makeText(requireContext(), "Tidak ada event dengan judul tersebut pada daftar event yang sudah selesai", Toast.LENGTH_SHORT).show()
-            }
             listAdapter.setEvents1(events)
         }
 
@@ -104,7 +100,7 @@ class FinishedFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         NetworkUtil.checkInternet(requireContext())
-        searchViewFinished.setQuery("", false)
+        searchViewFinished.setQuery(null, false)
         searchViewFinished.clearFocus()
         searchViewFinished.isIconified = true
         viewModel.fetchActiveEvents()

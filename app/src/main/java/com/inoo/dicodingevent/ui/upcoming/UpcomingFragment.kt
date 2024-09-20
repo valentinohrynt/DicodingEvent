@@ -27,7 +27,8 @@ class UpcomingFragment : Fragment() {
     private lateinit var searchViewUpcoming: SearchView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentUpcomingBinding.inflate(inflater, container, false)
@@ -49,10 +50,9 @@ class UpcomingFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (!newText.isNullOrEmpty()) {
-                    viewModel.searchActiveEvents(newText)
-                } else {
+                if (newText.isNullOrEmpty()) {
                     viewModel.fetchActiveEvents()
+                    viewModel.clearError()
                 }
                 return true
             }
@@ -65,7 +65,7 @@ class UpcomingFragment : Fragment() {
             onClickedItem = { id ->
                 navigateToDetail(id)
             }
-            ,viewType = 2)
+                ,viewType = 2)
         listrecyclerView.adapter = listAdapter
 
         listrecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -75,9 +75,6 @@ class UpcomingFragment : Fragment() {
         }
 
         viewModel.searchResults.observe(viewLifecycleOwner) { events ->
-            if (events.isEmpty() && viewModel.isSearching) {
-                Toast.makeText(requireContext(), "Tidak ada event dengan judul tersebut pada daftar event yang akan datang", Toast.LENGTH_SHORT).show()
-            }
             listAdapter.setEvents2(events)
         }
 
@@ -104,7 +101,7 @@ class UpcomingFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         NetworkUtil.checkInternet(requireContext())
-        searchViewUpcoming.setQuery("", false)
+        searchViewUpcoming.setQuery(null, false)
         searchViewUpcoming.clearFocus()
         searchViewUpcoming.isIconified = true
         viewModel.fetchActiveEvents()

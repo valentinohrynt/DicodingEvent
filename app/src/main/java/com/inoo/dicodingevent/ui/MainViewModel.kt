@@ -90,11 +90,10 @@ class MainViewModel : ViewModel() {
                     response: Response<EventResponse>
                 ) {
                     _isLoading.value = false
-                    if (response.isSuccessful) {
-                        val events = response.body()?.listEvents ?: emptyList()
-                        _searchResults.value = events
-                    } else {
-                        _error.value = Error("Error: ${response.message()}")
+                    val events = response.body()?.listEvents ?: emptyList()
+                    _searchResults.value = events
+                    if (events.isEmpty()) {
+                        _error.value = Error("Tidak ada event dengan judul tersebut pada daftar event yang sudah selesai")
                     }
                 }
 
@@ -119,7 +118,7 @@ class MainViewModel : ViewModel() {
                     val events = response.body()?.listEvents ?: emptyList()
                     _searchResults.value = events
                     if (events.isEmpty()) {
-                        _error.value = Error("Data tidak ditemukan")
+                        _error.value = Error("Tidak ada event dengan judul tersebut pada daftar event yang sudah selesai")
                     }
                 }
 
@@ -129,5 +128,12 @@ class MainViewModel : ViewModel() {
                 }
             })
         }
+    }
+
+    fun clearError() {
+        _error.value = null
+        _searchResults.value = emptyList()
+        _isLoading.value = false
+        isSearching = false
     }
 }
