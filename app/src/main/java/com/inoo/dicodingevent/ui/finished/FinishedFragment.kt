@@ -1,6 +1,7 @@
 package com.inoo.dicodingevent.ui.finished
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,103 +16,125 @@ import com.inoo.dicodingevent.databinding.FragmentFinishedBinding
 import com.inoo.dicodingevent.ui.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
 import androidx.appcompat.widget.SearchView
-import com.inoo.dicodingevent.util.NetworkUtil
+import com.inoo.dicodingevent.data.Result
+import com.inoo.dicodingevent.data.local.entity.EventEntity
+import com.inoo.dicodingevent.ui.setting.SettingPreferences
+import com.inoo.dicodingevent.ui.setting.ViewModelFactory
+import com.inoo.dicodingevent.ui.setting.dataStore
 
 
 class FinishedFragment : Fragment() {
 
-    private var binding: FragmentFinishedBinding? = null
+    private var _binding: FragmentFinishedBinding? = null
+    private val binding get() = _binding!!
     private lateinit var progressBar: ProgressBar
-    private lateinit var listrecyclerView: RecyclerView
+    private lateinit var listRecyclerView: RecyclerView
     private lateinit var listAdapter: ListItemAdapter
     private lateinit var searchViewFinished: SearchView
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext(), SettingPreferences.getInstance(requireContext().applicationContext.dataStore))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFinishedBinding.inflate(inflater, container, false)
-        return binding!!.root
+        _binding = FragmentFinishedBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewFinished = binding!!.searchViewFinished
+        searchViewFinished = binding.searchViewFinished
+        progressBar = binding.progressBar
+        listRecyclerView = binding.finishedListRecyclerView
+
+        searchViewFinished.setQuery(null, false)
+        searchViewFinished.clearFocus()
+        searchViewFinished.isIconified = true
+
+        setupSearchView()
+        setupRecyclerView()
+    }
+
+    private fun setupSearchView() {
         searchViewFinished.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (!query.isNullOrEmpty()) {
-                    viewModel.searchInactiveEvents(query)
-                } else {
-                    viewModel.fetchInactiveEvents()
-                }
+            override fun onQueryTextSubmit(query: String): Boolean {
+                doSearch(query)
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) {
-                    viewModel.fetchInactiveEvents()
-                    viewModel.clearError()
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isBlank()) {
+                    observeInactiveEvents()
                 }
                 return true
             }
         })
+    }
 
-        progressBar = binding!!.progressBar
-        listrecyclerView = binding!!.finishedListRecyclerView
-
+    private fun setupRecyclerView() {
         listAdapter = ListItemAdapter(
-            onClickedItem = { id ->
-                navigateToDetail(id)
-            }
-                ,viewType = 1)
-        listrecyclerView.adapter = listAdapter
-        listrecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.inactiveEvents.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents1(events)
+            onClickedItem = { eventEntity ->
+                navigateToDetail(eventEntity.id.toInt())
+            },
+            viewType = 1,
+            viewModel = viewModel
+        )
+        listRecyclerView.adapter = listAdapter
+        listRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun observeInactiveEvents() {
+        Log.d("FinishedFragment", "observeInactiveEvents called")
+        viewModel.fetchInactiveEvents().observe(viewLifecycleOwner) { result ->
+            resultHandler(result)
         }
+    }
 
-        viewModel.searchResults.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents1(events)
+    private fun doSearch(query: String) {
+        Log.d("FinishedFragment", "doSearch called")
+        val active = 0
+        viewModel.searchEvents(active, query).observe(viewLifecycleOwner) { result ->
+            resultHandler(result)
         }
+    }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-
-            if (isLoading) {
+    private fun resultHandler(result: Result<List<EventEntity>>) {
+        when (result) {
+            is Result.Loading -> {
                 progressBar.visibility = View.VISIBLE
-                listrecyclerView.visibility = View.GONE
-            } else {
+            }
+            is Result.Success -> {
                 progressBar.visibility = View.GONE
-                listrecyclerView.visibility = View.VISIBLE
+                if (result.data.isEmpty()) {
+                    Toast.makeText(context, "No data found", Toast.LENGTH_SHORT).show()
+                }
+                listAdapter.setInactiveEvents(result.data)
+            }
+            is Result.Error -> {
+                progressBar.visibility = View.GONE
+                Toast.makeText(context, "Error: ${result.error}", Toast.LENGTH_SHORT).show()
             }
         }
-
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            if (error != null) {
-                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.fetchInactiveEvents()
-
     }
 
     override fun onResume() {
         super.onResume()
-        NetworkUtil.checkInternet(requireContext())
         searchViewFinished.setQuery(null, false)
         searchViewFinished.clearFocus()
         searchViewFinished.isIconified = true
-        viewModel.fetchActiveEvents()
+        observeInactiveEvents()
     }
-    
+
     private fun navigateToDetail(eventId: Int?) {
         eventId?.let {
-            val action = FinishedFragmentDirections.actionNavigationFinishedToDetailFragment(it)
+            val action = FinishedFragmentDirections.actionNavigationFinishedToNavigationDetail(it)
             findNavController().navigate(action)
         }
     }
-
 }
+
 

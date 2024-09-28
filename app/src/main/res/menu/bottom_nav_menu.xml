@@ -13,5 +13,13 @@
         android:id="@+id/navigation_finished"
         android:icon="@drawable/ic_finished_black_24dp"
         android:title="@string/title_finished" />
+    <item
+        android:id="@+id/navigation_favorite"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:title="@string/title_favorite" />
+    <item
+        android:id="@+id/navigation_setting"
+        android:icon="@drawable/ic_setting_black_24dp"
+        android:title="@string/title_setting" />
 
 </menu>

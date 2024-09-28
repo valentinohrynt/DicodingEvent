@@ -13,98 +13,111 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentHomeBinding
-import com.inoo.dicodingevent.util.NetworkUtil
 import com.inoo.dicodingevent.ui.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.GridItemAdapter
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
+import com.inoo.dicodingevent.ui.setting.SettingPreferences
+import com.inoo.dicodingevent.ui.setting.ViewModelFactory
+import com.inoo.dicodingevent.ui.setting.dataStore
+import com.inoo.dicodingevent.data.Result
 
 class HomeFragment : Fragment() {
 
-    private var binding: FragmentHomeBinding? = null
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private lateinit var gridRecyclerView: RecyclerView
     private lateinit var listRecyclerView: RecyclerView
     private lateinit var gridAdapter: GridItemAdapter
     private lateinit var listAdapter: ListItemAdapter
     private lateinit var progressBar: ProgressBar
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var pref: SettingPreferences
+    private val viewModel: MainViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext(), pref)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding!!.root
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gridRecyclerView = binding!!.gridRecyclerView
-        listRecyclerView = binding!!.listRecyclerView
-        progressBar = binding!!.progressBar
+        gridRecyclerView = binding.gridRecyclerView
+        listRecyclerView = binding.listRecyclerView
+        progressBar = binding.progressBar
+        pref = SettingPreferences.getInstance(requireContext().applicationContext.dataStore)
 
-        gridAdapter = GridItemAdapter(
-            onClickedItem = {
-                id -> navigateToDetail(id)
-            }
-        )
-        listAdapter = ListItemAdapter(
-            onClickedItem = {
-                id -> navigateToDetail(id)
-            }, viewType = 1
-        )
+        gridAdapter = GridItemAdapter ({ eventEntity ->
+            navigateToDetail(eventEntity.id.toInt())
+        }, viewModel)
+
+        listAdapter = ListItemAdapter({ eventEntity ->
+            navigateToDetail(eventEntity.id.toInt())
+        }, 1, viewModel)
 
         gridRecyclerView.adapter = gridAdapter
         listRecyclerView.adapter = listAdapter
 
-
-        val gridLayoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
-        gridRecyclerView.layoutManager = gridLayoutManager
+        gridRecyclerView.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
         listRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.activeEvents.observe(viewLifecycleOwner) { events ->
-            gridAdapter.setEvents(events)
-        }
-        viewModel.inactiveEvents.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents1(events)
-        }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                progressBar.visibility = View.VISIBLE
-                gridRecyclerView.visibility = View.GONE
-                listRecyclerView.visibility = View.GONE
-            } else {
-                progressBar.visibility = View.GONE
-                gridRecyclerView.visibility = View.VISIBLE
-                listRecyclerView.visibility = View.VISIBLE
+        observeGridRecycler()
+        observeListRecycler()
+    }
+
+    private fun observeGridRecycler(){
+        viewModel.fetchActiveEvents().observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        gridAdapter.setEvents(result.data.take(5))
+                    }
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(
+                            context,
+                            "Error: " + result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
+    }
 
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            if (error != null) {
-                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+    private fun observeListRecycler() {
+        viewModel.fetchInactiveEvents().observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        listAdapter.setInactiveEvents(result.data.take(5))
+                    }
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                    }
+                }
             }
         }
-
-
-        viewModel.fetchActiveEvents()
-        viewModel.fetchInactiveEvents()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        NetworkUtil.checkInternet(requireContext())
-    }
     private fun navigateToDetail(eventId: Int?) {
         eventId?.let {
-            val action = HomeFragmentDirections.actionNavigationHomeToDetailFragment(it)
+            val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetail(it)
             findNavController().navigate(action)
         }
     }
+
 }

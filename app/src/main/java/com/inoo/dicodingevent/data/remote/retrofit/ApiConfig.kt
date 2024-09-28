@@ -1,4 +1,4 @@
-package com.inoo.dicodingevent.data.retrofit
+package com.inoo.dicodingevent.data.remote.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

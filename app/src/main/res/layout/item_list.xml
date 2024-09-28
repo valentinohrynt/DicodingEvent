@@ -27,6 +27,17 @@
             tools:src="@tools:sample/avatars"
             android:contentDescription="@string/title" />
 
+        <Button
+            android:id="@+id/btn_favorite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_unfavorite_black_24dp"
+            android:contentDescription="@string/favorite"
+            android:padding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_item_quota"
+            android:layout_margin="4dp" />
+
         <TextView
             android:id="@+id/tv_item_name"
             android:layout_width="0dp"

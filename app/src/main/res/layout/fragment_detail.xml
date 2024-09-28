@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:layout_marginBottom="?attr/actionBarSize"
+    android:layout_marginTop="?attr/actionBarSize"
     tools:context=".ui.detail.DetailFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="?attr/actionBarSize">
+        android:orientation="vertical">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -21,12 +20,29 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/ivDetailEventImageLogo"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/title"/>
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/ivDetailEventImageLogo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/title"/>
+
+            <Button
+                android:id="@+id/btnFavorite"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="@string/favorite"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_unfavorite_black_24dp"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvDetailEventName"

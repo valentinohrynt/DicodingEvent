@@ -15,14 +15,21 @@ import com.inoo.dicodingevent.databinding.FragmentUpcomingBinding
 import com.inoo.dicodingevent.ui.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
 import androidx.appcompat.widget.SearchView
-import com.inoo.dicodingevent.util.NetworkUtil
+import com.inoo.dicodingevent.data.Result
+import com.inoo.dicodingevent.data.local.entity.EventEntity
+import com.inoo.dicodingevent.ui.setting.SettingPreferences
+import com.inoo.dicodingevent.ui.setting.ViewModelFactory
+import com.inoo.dicodingevent.ui.setting.dataStore
 
 class UpcomingFragment : Fragment() {
 
-    private var binding: FragmentUpcomingBinding? = null
-    private val viewModel: MainViewModel by viewModels()
+    private var _binding: FragmentUpcomingBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: MainViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext(), SettingPreferences.getInstance(requireContext().applicationContext.dataStore))
+    }
     private lateinit var progressBar: ProgressBar
-    private lateinit var listrecyclerView: RecyclerView
+    private lateinit var listRecyclerView: RecyclerView
     private lateinit var listAdapter: ListItemAdapter
     private lateinit var searchViewUpcoming: SearchView
 
@@ -31,87 +38,98 @@ class UpcomingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentUpcomingBinding.inflate(inflater, container, false)
-        return binding!!.root
+        _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewUpcoming = binding!!.searchViewUpcoming
+        searchViewUpcoming = binding.searchViewUpcoming
+        progressBar = binding.progressBar
+        listRecyclerView = binding.upcomingListRecyclerView
+
+        searchViewUpcoming.setQuery(null, false)
+        searchViewUpcoming.clearFocus()
+        searchViewUpcoming.isIconified = true
+
+        setupSearchView()
+        setupRecyclerView()
+    }
+
+    private fun setupSearchView() {
         searchViewUpcoming.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (!query.isNullOrEmpty()) {
-                    viewModel.searchActiveEvents(query)
-                } else {
-                    viewModel.fetchActiveEvents()
-                }
+            override fun onQueryTextSubmit(query: String): Boolean {
+                doSearch(query)
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) {
-                    viewModel.fetchActiveEvents()
-                    viewModel.clearError()
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isBlank()) {
+                    observeActiveEvents()
                 }
                 return true
             }
         })
+    }
 
-        progressBar = binding!!.progressBar
-        listrecyclerView = binding!!.upcomingListRecyclerView
-
+    private fun setupRecyclerView() {
         listAdapter = ListItemAdapter(
-            onClickedItem = { id ->
-                navigateToDetail(id)
-            }
-                ,viewType = 2)
-        listrecyclerView.adapter = listAdapter
+            onClickedItem = { eventEntity ->
+                navigateToDetail(eventEntity.id.toInt())
+            },
+            viewType = 2,
+            viewModel = viewModel
+        )
+        listRecyclerView.adapter = listAdapter
+        listRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
 
-        listrecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.activeEvents.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents2(events)
+    private fun observeActiveEvents() {
+        viewModel.fetchActiveEvents().observe(viewLifecycleOwner) { result ->
+            resultHandler(result)
         }
+    }
 
-        viewModel.searchResults.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents2(events)
+    private fun doSearch(query: String) {
+        val active = 1
+        viewModel.searchEvents(active, query).observe(viewLifecycleOwner) { result ->
+            resultHandler(result)
         }
+    }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-
-            if (isLoading) {
+    private fun resultHandler(result: Result<List<EventEntity>>) {
+        when (result) {
+            is Result.Loading -> {
                 progressBar.visibility = View.VISIBLE
-                listrecyclerView.visibility = View.GONE
-            } else {
+            }
+            is Result.Success -> {
                 progressBar.visibility = View.GONE
-                listrecyclerView.visibility = View.VISIBLE
+                if (result.data.isEmpty()) {
+                    Toast.makeText(context, "No data found", Toast.LENGTH_SHORT).show()
+                }
+                listAdapter.setActiveEvents(result.data)
+            }
+            is Result.Error -> {
+                progressBar.visibility = View.GONE
+                Toast.makeText(context, "Error: ${result.error}", Toast.LENGTH_SHORT).show()
             }
         }
-
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            if (error != null) {
-                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.fetchActiveEvents()
-
     }
 
     override fun onResume() {
         super.onResume()
-        NetworkUtil.checkInternet(requireContext())
         searchViewUpcoming.setQuery(null, false)
         searchViewUpcoming.clearFocus()
         searchViewUpcoming.isIconified = true
-        viewModel.fetchActiveEvents()
+        observeActiveEvents()
     }
+
 
     private fun navigateToDetail(eventId: Int?) {
         eventId?.let {
-            val action = UpcomingFragmentDirections.actionNavigationUpcomingToDetailFragment(it)
+            val action = UpcomingFragmentDirections.actionNavigationUpcomingToNavigationDetail(it)
             findNavController().navigate(action)
         }
     }
-
 }

@@ -7,4 +7,9 @@
     <string name="title_upcoming">Upcoming</string>
     <string name="title_finished">Finished</string>
     <string name="open_event_link">Open Event Link</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="title_setting">Setting</string>
+    <string name="favorite">favorite</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="daily_reminder">Notification</string>
 </resources>
