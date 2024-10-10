@@ -65,16 +65,16 @@ class FinishedFragment : Fragment() {
         listAdapter = ListItemAdapter(
             onClickedItem = { id ->
                 navigateToDetail(id)
-            }
-                ,viewType = 1)
+            })
+
         listrecyclerView.adapter = listAdapter
         listrecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.inactiveEvents.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents1(events)
+            listAdapter.setEvents(events)
         }
 
         viewModel.searchResults.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents1(events)
+            listAdapter.setEvents(events)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

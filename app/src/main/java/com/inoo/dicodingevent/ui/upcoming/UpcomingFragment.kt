@@ -64,18 +64,17 @@ class UpcomingFragment : Fragment() {
         listAdapter = ListItemAdapter(
             onClickedItem = { id ->
                 navigateToDetail(id)
-            }
-                ,viewType = 2)
+            })
         listrecyclerView.adapter = listAdapter
 
         listrecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.activeEvents.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents2(events)
+            listAdapter.setEvents(events)
         }
 
         viewModel.searchResults.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents2(events)
+            listAdapter.setEvents(events)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

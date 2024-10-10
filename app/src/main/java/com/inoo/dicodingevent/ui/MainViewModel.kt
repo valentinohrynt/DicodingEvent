@@ -28,7 +28,7 @@ class MainViewModel : ViewModel() {
     private val _searchResults = MutableLiveData<List<ListEventsItem>>()
     val searchResults: LiveData<List<ListEventsItem>> get() = _searchResults
 
-    var isSearching = false
+    private var isSearching = false
 
     fun fetchActiveEvents() {
         isSearching = false

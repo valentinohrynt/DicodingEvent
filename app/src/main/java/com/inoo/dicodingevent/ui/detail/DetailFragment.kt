@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide

@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         listAdapter = ListItemAdapter(
             onClickedItem = {
                 id -> navigateToDetail(id)
-            }, viewType = 1
+            }
         )
 
         gridRecyclerView.adapter = gridAdapter
@@ -65,8 +65,9 @@ class HomeFragment : Fragment() {
         viewModel.activeEvents.observe(viewLifecycleOwner) { events ->
             gridAdapter.setEvents(events)
         }
+
         viewModel.inactiveEvents.observe(viewLifecycleOwner) { events ->
-            listAdapter.setEvents1(events)
+            listAdapter.setEvents(events)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -86,7 +87,6 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
             }
         }
-
 
         viewModel.fetchActiveEvents()
         viewModel.fetchInactiveEvents()

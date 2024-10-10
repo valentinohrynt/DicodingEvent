@@ -13,23 +13,22 @@ import com.inoo.dicodingevent.util.SimpleDateUtil.formatDateTime
 
 class ListItemAdapter(
     private val onClickedItem: (Int?) -> Unit,
-    private val viewType: Int
 ) : RecyclerView.Adapter<ListItemAdapter.ListEventViewHolder>() {
 
-    private val events1 = mutableListOf<ListEventsItem>()
-    private val events2 = mutableListOf<ListEventsItem>()
+    private val events = mutableListOf<ListEventsItem>()
+//    private val events2 = mutableListOf<ListEventsItem>()
 
-    fun setEvents1(newEvents: List<ListEventsItem>) {
-        events1.clear()
-        events1.addAll(newEvents)
+    fun setEvents(newEvents: List<ListEventsItem>) {
+        events.clear()
+        events.addAll(newEvents)
         notifyDataSetChanged()
     }
 
-    fun setEvents2(newEvents: List<ListEventsItem>) {
-        events2.clear()
-        events2.addAll(newEvents)
-        notifyDataSetChanged()
-    }
+//    fun setEvents2(newEvents: List<ListEventsItem>) {
+//        events2.clear()
+//        events2.addAll(newEvents)
+//        notifyDataSetChanged()
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListEventViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
@@ -37,20 +36,12 @@ class ListItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ListEventViewHolder, position: Int) {
-        val event: ListEventsItem = when (viewType) {
-            1 -> events1[position]
-            2 -> events2[position]
-            else -> throw IllegalArgumentException("Invalid viewType")
-        }
+        val event: ListEventsItem = events[position]
         holder.bind(event)
     }
 
     override fun getItemCount(): Int {
-        return when (viewType) {
-            1 -> events1.size
-            2 -> events2.size
-            else -> 0
-        }
+        return events.size
     }
 
     inner class ListEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
