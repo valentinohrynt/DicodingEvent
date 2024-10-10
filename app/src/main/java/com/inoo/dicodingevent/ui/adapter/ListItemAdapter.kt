@@ -18,37 +18,46 @@ import com.inoo.dicodingevent.util.SimpleDateUtil.formatDateTime
 
 class ListItemAdapter(
     private val onClickedItem: (EventEntity) -> Unit,
-    private val viewType: Int,
     private val viewModel: MainViewModel
 ) : RecyclerView.Adapter<ListItemAdapter.ListEventViewHolder>() {
 
-    private val inactiveEvents = mutableListOf<EventEntity>()
-    private val activeEvents = mutableListOf<EventEntity>()
-    private val favoritedEvents = mutableListOf<EventEntity>()
+    private val events = mutableListOf<EventEntity>()
 
-    fun setInactiveEvents(newEvents: List<EventEntity>) {
-        val diffCallback = EventDiffCallback(inactiveEvents, newEvents)
+//    private val inactiveEvents = mutableListOf<EventEntity>()
+//    private val activeEvents = mutableListOf<EventEntity>()
+//    private val favoritedEvents = mutableListOf<EventEntity>()
+
+    fun setEvents(newEvents: List<EventEntity>) {
+        val diffCallback = EventDiffCallback(events, newEvents)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        inactiveEvents.clear()
-        inactiveEvents.addAll(newEvents)
+        events.clear()
+        events.addAll(newEvents)
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun setActiveEvents(newEvents: List<EventEntity>) {
-        val diffCallback = EventDiffCallback(activeEvents, newEvents)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        activeEvents.clear()
-        activeEvents.addAll(newEvents)
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    fun setFavoritedEvents(newEvents: List<EventEntity>) {
-        val diffCallback = EventDiffCallback(favoritedEvents, newEvents)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        favoritedEvents.clear()
-        favoritedEvents.addAll(newEvents)
-        diffResult.dispatchUpdatesTo(this)
-    }
+//    fun setInactiveEvents(newEvents: List<EventEntity>) {
+//        val diffCallback = EventDiffCallback(inactiveEvents, newEvents)
+//        val diffResult = DiffUtil.calculateDiff(diffCallback)
+//        inactiveEvents.clear()
+//        inactiveEvents.addAll(newEvents)
+//        diffResult.dispatchUpdatesTo(this)
+//    }
+//
+//    fun setActiveEvents(newEvents: List<EventEntity>) {
+//        val diffCallback = EventDiffCallback(activeEvents, newEvents)
+//        val diffResult = DiffUtil.calculateDiff(diffCallback)
+//        activeEvents.clear()
+//        activeEvents.addAll(newEvents)
+//        diffResult.dispatchUpdatesTo(this)
+//    }
+//
+//    fun setFavoritedEvents(newEvents: List<EventEntity>) {
+//        val diffCallback = EventDiffCallback(favoritedEvents, newEvents)
+//        val diffResult = DiffUtil.calculateDiff(diffCallback)
+//        favoritedEvents.clear()
+//        favoritedEvents.addAll(newEvents)
+//        diffResult.dispatchUpdatesTo(this)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListEventViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
@@ -56,22 +65,12 @@ class ListItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ListEventViewHolder, position: Int) {
-        val event: EventEntity = when (viewType) {
-            1 -> inactiveEvents[position]
-            2 -> activeEvents[position]
-            3 -> favoritedEvents[position]
-            else -> throw IllegalArgumentException("Invalid viewType")
-        }
+        val event: EventEntity = events[position]
         holder.bind(event)
     }
 
     override fun getItemCount(): Int {
-        return when (viewType) {
-            1 -> inactiveEvents.size
-            2 -> activeEvents.size
-            3 -> favoritedEvents.size
-            else -> 0
-        }
+        return events.size
     }
 
     inner class ListEventViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {

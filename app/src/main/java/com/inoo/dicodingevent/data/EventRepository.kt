@@ -22,7 +22,7 @@ class EventRepository private constructor (
                 emit(Result.Success(localData))
             } else {
                 try {
-                    val response = apiService.getActiveEvent()
+                    val response = apiService.getEvents(1)
                     val events = response.listEvents
                     val eventList = events.map { event ->
                         val isFavorited = eventDao.isFavorited(event.id.toString())
@@ -67,7 +67,7 @@ class EventRepository private constructor (
                 emit(Result.Success(localData))
             } else {
                 try {
-                    val response = apiService.getInactiveEvent()
+                    val response = apiService.getEvents(0)
                     val events = response.listEvents
                     val eventList = events.map { event ->
                         val isFavorited = eventDao.isFavorited(event.id.toString())
@@ -118,8 +118,6 @@ class EventRepository private constructor (
             emit(Result.Error(e.message.toString()))
         }
     }
-
-
 
     fun getEvent(id: String): LiveData<Result<EventEntity>> = liveData {
         emit(Result.Loading)

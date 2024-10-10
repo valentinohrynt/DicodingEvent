@@ -78,7 +78,6 @@ class UpcomingFragment : Fragment() {
             onClickedItem = { eventEntity ->
                 navigateToDetail(eventEntity.id.toInt())
             },
-            viewType = 2,
             viewModel = viewModel
         )
         listRecyclerView.adapter = listAdapter
@@ -108,7 +107,7 @@ class UpcomingFragment : Fragment() {
                 if (result.data.isEmpty()) {
                     Toast.makeText(context, "No data found", Toast.LENGTH_SHORT).show()
                 }
-                listAdapter.setActiveEvents(result.data)
+                listAdapter.setEvents(result.data)
             }
             is Result.Error -> {
                 progressBar.visibility = View.GONE

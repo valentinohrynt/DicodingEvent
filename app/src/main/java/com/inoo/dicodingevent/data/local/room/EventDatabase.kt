@@ -20,6 +20,7 @@ abstract class EventDatabase : RoomDatabase() {
                     EventDatabase::class.java,
                     "Event.db"
                 )
+                    .fallbackToDestructiveMigration()
                     .build()
             }
     }

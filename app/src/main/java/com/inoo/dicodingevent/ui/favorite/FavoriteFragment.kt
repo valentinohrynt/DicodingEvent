@@ -50,7 +50,6 @@ class FavoriteFragment : Fragment() {
             onClickedItem = { eventEntity ->
                 navigateToDetail(eventEntity.id.toInt())
             },
-            viewType = 3,
             viewModel = viewModel
         )
         listRecyclerView.adapter = listAdapter
@@ -59,7 +58,7 @@ class FavoriteFragment : Fragment() {
 
     private fun observeFavoritedEvents() {
         viewModel.fetchFavoritedEvents().observe(viewLifecycleOwner) { result ->
-            listAdapter.setFavoritedEvents(result)
+            listAdapter.setEvents(result)
         }
     }
 

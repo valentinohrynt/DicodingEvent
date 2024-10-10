@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
 
         listAdapter = ListItemAdapter({ eventEntity ->
             navigateToDetail(eventEntity.id.toInt())
-        }, 1, viewModel)
+        }, viewModel)
 
         gridRecyclerView.adapter = gridAdapter
         listRecyclerView.adapter = listAdapter
@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
                     }
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        listAdapter.setInactiveEvents(result.data.take(5))
+                        listAdapter.setEvents(result.data.take(5))
                     }
                     is Result.Error -> {
                         binding.progressBar.visibility = View.GONE
