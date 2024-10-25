@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.data.local.entity.EventEntity
-import com.inoo.dicodingevent.ui.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.MainViewModel
 import com.inoo.dicodingevent.util.SimpleDateUtil.formatDateTime
 
 class ListItemAdapter(

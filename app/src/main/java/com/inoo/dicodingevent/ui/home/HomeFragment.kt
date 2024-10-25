@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentHomeBinding
-import com.inoo.dicodingevent.ui.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.GridItemAdapter
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
 import com.inoo.dicodingevent.ui.setting.SettingPreferences
-import com.inoo.dicodingevent.ui.setting.ViewModelFactory
+import com.inoo.dicodingevent.ui.viewmodel.ViewModelFactory
 import com.inoo.dicodingevent.ui.setting.dataStore
 import com.inoo.dicodingevent.data.Result
 
@@ -120,4 +120,8 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

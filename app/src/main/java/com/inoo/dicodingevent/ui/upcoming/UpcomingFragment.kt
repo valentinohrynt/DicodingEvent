@@ -12,13 +12,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentUpcomingBinding
-import com.inoo.dicodingevent.ui.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
 import androidx.appcompat.widget.SearchView
 import com.inoo.dicodingevent.data.Result
 import com.inoo.dicodingevent.data.local.entity.EventEntity
 import com.inoo.dicodingevent.ui.setting.SettingPreferences
-import com.inoo.dicodingevent.ui.setting.ViewModelFactory
+import com.inoo.dicodingevent.ui.viewmodel.ViewModelFactory
 import com.inoo.dicodingevent.ui.setting.dataStore
 
 class UpcomingFragment : Fragment() {
@@ -130,5 +130,10 @@ class UpcomingFragment : Fragment() {
             val action = UpcomingFragmentDirections.actionNavigationUpcomingToNavigationDetail(it)
             findNavController().navigate(action)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

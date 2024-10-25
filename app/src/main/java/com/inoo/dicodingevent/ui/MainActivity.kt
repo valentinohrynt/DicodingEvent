@@ -20,8 +20,9 @@ import com.inoo.dicodingevent.databinding.ActivityMainBinding
 import com.inoo.dicodingevent.ui.home.HomeFragmentDirections
 import com.inoo.dicodingevent.ui.notification.DailyReminderWorker
 import com.inoo.dicodingevent.ui.setting.SettingPreferences
-import com.inoo.dicodingevent.ui.setting.ViewModelFactory
 import com.inoo.dicodingevent.ui.setting.dataStore
+import com.inoo.dicodingevent.ui.viewmodel.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.ViewModelFactory
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {

@@ -18,7 +18,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.inoo.dicodingevent.databinding.FragmentSettingBinding
-import com.inoo.dicodingevent.ui.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.ViewModelFactory
 
 class SettingFragment : Fragment() {
 

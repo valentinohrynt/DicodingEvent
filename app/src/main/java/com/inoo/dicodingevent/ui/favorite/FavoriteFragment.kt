@@ -11,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentFavoriteBinding
-import com.inoo.dicodingevent.ui.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.MainViewModel
 import com.inoo.dicodingevent.ui.adapter.ListItemAdapter
 import com.inoo.dicodingevent.ui.setting.SettingPreferences
-import com.inoo.dicodingevent.ui.setting.ViewModelFactory
+import com.inoo.dicodingevent.ui.viewmodel.ViewModelFactory
 import com.inoo.dicodingevent.ui.setting.dataStore
 
 class FavoriteFragment : Fragment() {

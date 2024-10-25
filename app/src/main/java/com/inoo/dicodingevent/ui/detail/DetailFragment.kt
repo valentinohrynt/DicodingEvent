@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -19,9 +18,9 @@ import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.data.Result
 import com.inoo.dicodingevent.databinding.FragmentDetailBinding
 import com.inoo.dicodingevent.ui.MainActivity
-import com.inoo.dicodingevent.ui.MainViewModel
+import com.inoo.dicodingevent.ui.viewmodel.MainViewModel
 import com.inoo.dicodingevent.ui.setting.SettingPreferences
-import com.inoo.dicodingevent.ui.setting.ViewModelFactory
+import com.inoo.dicodingevent.ui.viewmodel.ViewModelFactory
 import com.inoo.dicodingevent.ui.setting.dataStore
 import com.inoo.dicodingevent.util.SimpleDateUtil.formatDateTime
 import com.inoo.dicodingevent.data.local.entity.EventEntity

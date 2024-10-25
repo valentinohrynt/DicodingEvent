@@ -1,11 +1,11 @@
-package com.inoo.dicodingevent.ui.setting
+package com.inoo.dicodingevent.ui.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.inoo.dicodingevent.data.EventRepository
 import com.inoo.dicodingevent.di.Injection
-import com.inoo.dicodingevent.ui.MainViewModel
+import com.inoo.dicodingevent.ui.setting.SettingPreferences
 
 class ViewModelFactory(
     private val pref: SettingPreferences,

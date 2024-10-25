@@ -1,4 +1,4 @@
-package com.inoo.dicodingevent.ui
+package com.inoo.dicodingevent.ui.viewmodel
 
 import com.inoo.dicodingevent.ui.setting.SettingPreferences
 import androidx.lifecycle.LiveData
@@ -46,9 +46,9 @@ class MainViewModel(private val pref: SettingPreferences, private val eventRepos
     private suspend fun setFavoritedEvent(event: EventEntity, favoriteState: Boolean) {
         eventRepository.setFavoritedEvent(event, favoriteState)
     }
-    fun getThemeSettings() : LiveData<Boolean> {
-        return pref.getThemeSetting().asLiveData()
-    }
+        fun getThemeSettings() : LiveData<Boolean> {
+            return pref.getThemeSetting().asLiveData()
+        }
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
