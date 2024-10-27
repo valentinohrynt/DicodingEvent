@@ -6,26 +6,13 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:padding="8dp"
-    android:layout_marginBottom="?attr/actionBarSize"
+    android:scrollbars="none"
     tools:context=".ui.upcoming.UpcomingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title_favorite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_favorite"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@id/favoriteListRecyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.28" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -41,12 +28,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favoriteListRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="555dp"
-            android:layout_marginTop="56dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintVertical_bias="0.016" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

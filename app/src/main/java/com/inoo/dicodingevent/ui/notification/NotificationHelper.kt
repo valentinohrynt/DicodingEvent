@@ -9,7 +9,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.inoo.dicodingevent.R
 import com.inoo.dicodingevent.data.local.entity.EventEntity
-import com.inoo.dicodingevent.ui.MainActivity
+import com.inoo.dicodingevent.ui.detail.DetailActivity
 import com.inoo.dicodingevent.util.SimpleDateUtil.formatDateTime
 
 class NotificationHelper(private val context: Context) {
@@ -32,8 +32,8 @@ class NotificationHelper(private val context: Context) {
     }
 
     fun showNotification(event: EventEntity) {
-        val intent = Intent(context, MainActivity::class.java).apply {
-            putExtra("eventId", event.id)
+        val intent = Intent(context, DetailActivity::class.java).apply {
+            putExtra(DetailActivity.EXTRA_EVENT_ID, event.id)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 

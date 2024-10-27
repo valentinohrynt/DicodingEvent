@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentUpcomingBinding
@@ -55,6 +54,7 @@ class UpcomingFragment : Fragment() {
 
         setupSearchView()
         setupRecyclerView()
+        observeActiveEvents()
     }
 
     private fun setupSearchView() {
@@ -74,12 +74,7 @@ class UpcomingFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        listAdapter = ListItemAdapter(
-            onClickedItem = { eventEntity ->
-                navigateToDetail(eventEntity.id.toInt())
-            },
-            viewModel = viewModel
-        )
+        listAdapter = ListItemAdapter(viewModel)
         listRecyclerView.adapter = listAdapter
         listRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -116,21 +111,13 @@ class UpcomingFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        searchViewUpcoming.setQuery(null, false)
-        searchViewUpcoming.clearFocus()
-        searchViewUpcoming.isIconified = true
-        observeActiveEvents()
-    }
-
-
-    private fun navigateToDetail(eventId: Int?) {
-        eventId?.let {
-            val action = UpcomingFragmentDirections.actionNavigationUpcomingToNavigationDetail(it)
-            findNavController().navigate(action)
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        searchViewUpcoming.setQuery(null, false)
+//        searchViewUpcoming.clearFocus()
+//        searchViewUpcoming.isIconified = true
+//        observeActiveEvents()
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

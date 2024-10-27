@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,13 +50,8 @@ class HomeFragment : Fragment() {
         progressBar = binding.progressBar
         pref = SettingPreferences.getInstance(requireContext().applicationContext.dataStore)
 
-        gridAdapter = GridItemAdapter ({ eventEntity ->
-            navigateToDetail(eventEntity.id.toInt())
-        }, viewModel)
-
-        listAdapter = ListItemAdapter({ eventEntity ->
-            navigateToDetail(eventEntity.id.toInt())
-        }, viewModel)
+        gridAdapter = GridItemAdapter (viewModel)
+        listAdapter = ListItemAdapter(viewModel)
 
         gridRecyclerView.adapter = gridAdapter
         listRecyclerView.adapter = listAdapter
@@ -110,13 +104,6 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-        }
-    }
-
-    private fun navigateToDetail(eventId: Int?) {
-        eventId?.let {
-            val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetail(it)
-            findNavController().navigate(action)
         }
     }
 

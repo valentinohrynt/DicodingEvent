@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentFavoriteBinding
@@ -46,12 +45,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        listAdapter = ListItemAdapter(
-            onClickedItem = { eventEntity ->
-                navigateToDetail(eventEntity.id.toInt())
-            },
-            viewModel = viewModel
-        )
+        listAdapter = ListItemAdapter(viewModel)
         listRecyclerView.adapter = listAdapter
         listRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -65,13 +59,6 @@ class FavoriteFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         observeFavoritedEvents()
-    }
-
-    private fun navigateToDetail(eventId: Int?) {
-        eventId?.let {
-            val action = FavoriteFragmentDirections.actionFavoriteFragmentToNavigationDetail(it)
-            findNavController().navigate(action)
-        }
     }
 
     override fun onDestroyView() {

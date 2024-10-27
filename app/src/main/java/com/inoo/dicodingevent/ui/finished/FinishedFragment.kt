@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inoo.dicodingevent.databinding.FragmentFinishedBinding
@@ -57,6 +56,7 @@ class FinishedFragment : Fragment() {
 
         setupSearchView()
         setupRecyclerView()
+        observeInactiveEvents()
     }
 
     private fun setupSearchView() {
@@ -76,12 +76,7 @@ class FinishedFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        listAdapter = ListItemAdapter(
-            onClickedItem = { eventEntity ->
-                navigateToDetail(eventEntity.id.toInt())
-            },
-            viewModel = viewModel
-        )
+        listAdapter = ListItemAdapter(viewModel)
         listRecyclerView.adapter = listAdapter
         listRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -120,20 +115,13 @@ class FinishedFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        searchViewFinished.setQuery(null, false)
-        searchViewFinished.clearFocus()
-        searchViewFinished.isIconified = true
-        observeInactiveEvents()
-    }
-
-    private fun navigateToDetail(eventId: Int?) {
-        eventId?.let {
-            val action = FinishedFragmentDirections.actionNavigationFinishedToNavigationDetail(it)
-            findNavController().navigate(action)
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        searchViewFinished.setQuery(null, false)
+//        searchViewFinished.clearFocus()
+//        searchViewFinished.isIconified = true
+//        observeInactiveEvents()
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

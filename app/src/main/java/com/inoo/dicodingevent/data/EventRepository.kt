@@ -17,13 +17,13 @@ class EventRepository private constructor (
 
         try {
             val localData = eventDao.getActiveEvent()
+            val response = apiService.getEvents(1)
+            val events = response.listEvents
 
-            if (localData.isNotEmpty()) {
+            if (localData.isNotEmpty() && localData.size == events.size || localData == events) {
                 emit(Result.Success(localData))
             } else {
                 try {
-                    val response = apiService.getEvents(1)
-                    val events = response.listEvents
                     val eventList = events.map { event ->
                         val isFavorited = eventDao.isFavorited(event.id.toString())
                         EventEntity(
@@ -62,13 +62,13 @@ class EventRepository private constructor (
 
         try {
             val localData = eventDao.getInactiveEvent()
+            val response = apiService.getEvents(0)
+            val events = response.listEvents
 
-            if (localData.isNotEmpty()) {
+            if (localData.isNotEmpty() && localData.size == events.size || localData == events) {
                 emit(Result.Success(localData))
             } else {
                 try {
-                    val response = apiService.getEvents(0)
-                    val events = response.listEvents
                     val eventList = events.map { event ->
                         val isFavorited = eventDao.isFavorited(event.id.toString())
                         EventEntity(
