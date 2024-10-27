@@ -20,7 +20,7 @@ class EventRepository private constructor (
             val response = apiService.getEvents(1)
             val events = response.listEvents
 
-            if (localData.isNotEmpty() && localData.size == events.size || localData == events) {
+            if (localData.isNotEmpty() && localData.size == events.size && localData == events) {
                 emit(Result.Success(localData))
             } else {
                 try {
@@ -65,7 +65,7 @@ class EventRepository private constructor (
             val response = apiService.getEvents(0)
             val events = response.listEvents
 
-            if (localData.isNotEmpty() && localData.size == events.size || localData == events) {
+            if (localData.isNotEmpty() && localData.size == events.size && localData == events) {
                 emit(Result.Success(localData))
             } else {
                 try {
